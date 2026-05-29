@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="fi">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Jäsenrekisteri</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+
+    <h1>Jäsenrekisteri</h1>
+
+
+    <button onclick="toggleForm()" class="lisaaBtn">
+        Lisää uusi jäsen
+    </button>
+
+    <br><br>
+
+    <form id="jasenForm" style="display:none;">
+
+
+        <input type="text" id="etunimi" placeholder="Etunimi" required>
+        <br><br>
+
+        <input type="text" id="sukunimi" placeholder="Sukunimi" required>
+        <br><br>
+
+        <input type="text" id="osoite" placeholder="Osoite">
+        <br><br>
+
+        <input type="text" id="postinumero" placeholder="Postinumero">
+        <br><br>
+
+        <input type="text" id="postitoimipaikka" placeholder="Postitoimipaikka">
+        <br><br>
+
+        <input type="text" id="puhelin" placeholder="Puhelin">
+        <br><br>
+
+        <input type="email" id="sahkoposti" placeholder="Sähköposti">
+        <br><br>
+
+        <input type="date" id="jasenyydenAlkuPvm">
+        <br><br>
+
+
+        <button type="submit" id="submitBtn" class="lisaaBtn">
+            Lisää jäsen
+        </button>
+
+
+    </form>
+
+    <hr>
+
+    <h2>Jäsenet</h2>
+
+    <button onclick="haeJasenet()" class="lisaaBtn">Hae jäsenet</button>
+
+    <ul id="jasenLista"></ul>
+
+    <script>
+
+        function toggleForm() {
+
+            const form = document.getElementById("jasenForm");
+
+            if (form.style.display === "none") {
+                form.style.display = "block";
+            }
+
+            else {
+                form.style.display = "none";
+            }
+        }
+
+        
+        let muokattavaId = null;
+
+        // Lisää jäsen
+        document.getElementById("jasenForm").addEventListener("submit", async function(e) {
+
+            e.preventDefault();
+
+            const jasen = {
+                etunimi: document.getElementById("etunimi").value,
+                sukunimi: document.getElementById("sukunimi").value,
+                osoite: document.getElementById("osoite").value,
+                postinumero: document.getElementById("postinumero").value,
+                postitoimipaikka: document.getElementById("postitoimipaikka").value,
+                puhelin: document.getElementById("puhelin").value,
+                sahkoposti: document.getElementById("sahkoposti").value,
+                jasenyydenAlkuPvm: document.getElementById("jasenyydenAlkuPvm").value
+            };
+
+            // Muokkaus
+            if (muokattavaId) 
+                { await fetch(`/jasenet/${muokattavaId}`, { 
+                    method: "PUT", 
+                    headers: { 
+                        "Content-Type": "application/json" 
+                    }, 
+                    body: JSON.stringify(jasen) 
+                }); 
+
+                    muokattavaId = null; 
+
+                    alert("Jäsen päivitetty!"); 
+                }
+
+
+            // Lisäys
+            else {
+
+                await fetch("/jasenet", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(jasen)
+                });
+
+            alert("Jäsen lisätty!");
+            }
+
+            document.getElementById("jasenForm").reset();
+
+            document.getElementById("submitBtn").textContent = "Lisää jäsen";
+
+            document.getElementById("jasenForm").style.display = "none";
+
+            haeJasenet();
+
+        });
+
+
+        // Hae jäsenet
+        async function haeJasenet() {
+
+            const response = await fetch("/jasenet");
+
+            const jasenet = await response.json();
+
+            const lista = document.getElementById("jasenLista");
+
+            lista.innerHTML = "";
+
+            jasenet.forEach(jasen => {
+
+                const li = document.createElement("li");
+
+
+                li.className = "jasenCard";
+
+                li.innerHTML = `
+                    <strong>${jasen.etunimi} ${jasen.sukunimi}</strong>
+
+                    <div class="jasenInfo">
+                        📍 ${jasen.osoite}<br>
+                        📮 ${jasen.postinumero}<br>
+                        📞 ${jasen.puhelin}<br>
+                        ✉️ ${jasen.sahkoposti}<br>
+                        📅 ${
+                            jasen.jasenyydenAlkuPvm
+                                ? new Date(jasen.jasenyydenAlkuPvm)
+                                    .toLocaleDateString("fi-FI")
+                                : ""
+                        }
+
+                    </div>
+
+                    <button class="muokkaaBtn" onclick="muokkaaJasen('${jasen._id}')">
+                        Muokkaa
+                    </button>
+
+                    <button class="poistaBtn" onclick="poistaJasen('${jasen._id}')">
+                        Poista
+                    </button>
+                `;
+
+
+                lista.appendChild(li);
+
+            });
+        }
+
+
+        // Muokkaa jäsen
+
+        async function muokkaaJasen(id) {
+
+            document.getElementById("jasenForm").style.display = "block";
+
+            const response = await fetch("/jasenet");
+
+            const jasenet = await response.json();
+
+            const jasen = jasenet.find(j => j._id === id);
+
+            if (!jasen) {
+                return;
+            }
+
+            muokattavaId = id;
+
+            document.getElementById("etunimi").value = jasen.etunimi || "";
+            document.getElementById("sukunimi").value = jasen.sukunimi || "";
+            document.getElementById("osoite").value = jasen.osoite || "";
+            document.getElementById("postinumero").value = jasen.postinumero || "";
+            document.getElementById("postitoimipaikka").value = jasen.postitoimipaikka || "";
+            document.getElementById("puhelin").value = jasen.puhelin || "";
+            document.getElementById("sahkoposti").value = jasen.sahkoposti || "";
+            document.getElementById("jasenyydenAlkuPvm").value = jasen.jasenyydenAlkuPvm? jasen.jasenyydenAlkuPvm.substring(0, 10): "";
+
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+
+            document.getElementById("submitBtn").textContent = "Tallenna muutokset";
+        }
+
+
+        // Poista jäsen
+        async function poistaJasen(id) {
+
+            if (!confirm("Haluatko varmasti poistaa jäsenen?")) {
+                return;
+            }
+
+            await fetch(`/jasenet/${id}`, {
+                method: "DELETE"
+            });
+
+            haeJasenet();
+        }
+
+
+    </script>
+    </div>
+</body>
+</html>

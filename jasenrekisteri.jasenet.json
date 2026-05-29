@@ -1,0 +1,64 @@
+[{
+  "_id": {
+    "$oid": "6a194dfdffc29ec8c423d19d"
+  },
+  "etunimi": "Matti",
+  "sukunimi": "Mäkinen",
+  "osoite": "Kuusikuja 8",
+  "postinumero": "45700",
+  "postitoimipaikka": "Kouvola",
+  "puhelin": "0453654231",
+  "sahkoposti": "heikki.makinen@testi.fi",
+  "jasenyydenAlkuPvm": "2023-01-01"
+},
+{
+  "_id": {
+    "$oid": "6a19662d98b2ac8ff59e0721"
+  },
+  "etunimi": "Minna",
+  "sukunimi": "Mäkinen",
+  "osoite": "Kuusikuja 8",
+  "postinumero": "45700",
+  "postitoimipaikka": "Kouvola",
+  "puhelin": "04536445987",
+  "sahkoposti": "minna.makinen@testi.fi",
+  "jasenyydenAlkuPvm": "2023-02-01"
+},
+{
+  "_id": {
+    "$oid": "6a196f4bf7e77b81edff10f0"
+  },
+  "etunimi": "Maija",
+  "sukunimi": "Kiiski",
+  "osoite": "Peltokuja 10",
+  "postinumero": "45100",
+  "puhelin": "12345667",
+  "sahkoposti": "maija.kiiski@testi.fi",
+  "jasenyydenAlkuPvm": "2026-05-04"
+},
+{
+  "_id": {
+    "$oid": "6a197b0b88f16bbeb55de9fa"
+  },
+  "etunimi": "Mikko",
+  "sukunimi": "Niinimäki",
+  "osoite": "Neulastie 20",
+  "postinumero": "45100",
+  "postitoimipaikka": "Kouvola",
+  "puhelin": "045353535473",
+  "sahkoposti": "mikko.niinimaki@testi.fi",
+  "jasenyydenAlkuPvm": "2024-12-01"
+},
+{
+  "_id": {
+    "$oid": "6a197d6688f16bbeb55de9fb"
+  },
+  "etunimi": "Anni",
+  "sukunimi": "Keskinen",
+  "osoite": "Lohikatu 2",
+  "postinumero": "45120",
+  "postitoimipaikka": "Kouvola",
+  "puhelin": "052454324354",
+  "sahkoposti": "anni.keskinen@testi.fi",
+  "jasenyydenAlkuPvm": "2026-05-01"
+}]

@@ -23,3 +23,10 @@ node server.js
 ## Swagger
 
 http://localhost:3000/api-docs
+
+
+## Tietokanta
+
+MongoDB:n export löytyy tiedostosta:
+
+jasenet.json

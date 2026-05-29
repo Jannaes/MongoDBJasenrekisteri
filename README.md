@@ -28,5 +28,6 @@ http://localhost:3000/api-docs
 ## Tietokanta
 
 MongoDB:n export löytyy tiedostosta:
-
 jasenrekisteri.jasenet.json
+
+Import MongoDB Compassilla. 

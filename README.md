@@ -29,4 +29,4 @@ http://localhost:3000/api-docs
 
 MongoDB:n export löytyy tiedostosta:
 
-jasenet.json
+jasenrekisteri.jasenet.json
